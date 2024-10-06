@@ -4,6 +4,7 @@ import co.demo.app.dto.GlobalResponse;
 import co.demo.app.models.entity.Employees;
 import co.demo.app.models.repository.EmployeeRepository;
 import co.demo.app.service.EmployeService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,11 @@ public class EmployeeHandler implements EmployeService {
 
         try{
             List<Employees> employees = employeeRepository.findAll();
-
+            if(employees.isEmpty()){
+                globalResponse.setResponseMessage("Not Found");
+                globalResponse.setResponseCode("00");
+                globalResponse.setData(null);
+            }
             globalResponse.setResponseMessage("Success");
             globalResponse.setResponseCode("00");
             globalResponse.setData(employees);
@@ -73,18 +78,20 @@ public class EmployeeHandler implements EmployeService {
     }
 
     @Override
-    public GlobalResponse updateEmployee(Employees employee) {
+    @Transactional
+    public GlobalResponse updateEmployee(Employees employe) {
         GlobalResponse globalResponse = new GlobalResponse();
         try{
-            Employees employe = employeeRepository.findById(employee.getId()).orElse(null);
-            if(employe == null){
+            Employees employee = employeeRepository.findById(employe.getId()).orElse(null);
+            if(employee == null){
                 globalResponse.setResponseMessage("Not Found");
                 globalResponse.setResponseCode("00");
                 globalResponse.setData(null);
             }
+            Employees newEmploy = employeeRepository.save(employe);
             globalResponse.setResponseMessage("Success");
             globalResponse.setResponseCode("00");
-            globalResponse.setData(employe);
+            globalResponse.setData(newEmploy);
         }catch (Exception e){
             globalResponse.setResponseMessage("Error");
             globalResponse.setResponseCode("01");
