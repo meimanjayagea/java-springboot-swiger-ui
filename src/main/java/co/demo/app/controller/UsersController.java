@@ -1,8 +1,8 @@
 package co.demo.app.controller;
 
 import co.demo.app.dto.GlobalResponse;
-import co.demo.app.models.entity.Employees;
-import co.demo.app.service.EmployeService;
+import co.demo.app.models.entity.Users;
+import co.demo.app.service.UsersService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/v1/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/v1/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
@@ -27,40 +27,40 @@ import org.springframework.web.bind.annotation.*;
                 termsOfService = "Terms of service"
         ),
         servers = {@Server(description = "Local ENV",url = "http://localhost:8080")})
-public class EmployeeController {
-    private final EmployeService employeeService;
+public class UsersController {
+    private final UsersService usersService;
 
-    public EmployeeController(EmployeService employeeService) {
-        this.employeeService = employeeService;
+    public UsersController(UsersService usersService) {
+        this.usersService = usersService;
     }
 
-    @GetMapping("/employees")
+    @GetMapping()
     public ResponseEntity<GlobalResponse> findAllEmployees() {
-        GlobalResponse response = employeeService.getAllEmployees();
+        GlobalResponse response = usersService.getAllUsers();
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/employees/{employeeId}")
+    @GetMapping("/{employeeId}")
     public ResponseEntity<GlobalResponse> findEmployeeById(@PathVariable int employeeId) {
-       GlobalResponse response = employeeService.getEmployeeById(employeeId);
+       GlobalResponse response = usersService.getUsersById(employeeId);
        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/employees")
-    public ResponseEntity<GlobalResponse> insertEmployee(@RequestBody Employees employee) {
-        GlobalResponse response = employeeService.addEmployee(employee);
+    @PostMapping()
+    public ResponseEntity<GlobalResponse> insertEmployee(@RequestBody Users employee) {
+        GlobalResponse response = usersService.addUsers(employee);
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/employees")
-    public ResponseEntity<GlobalResponse> updateEmployee(@RequestBody Employees employee) {
-        GlobalResponse response = employeeService.updateEmployee(employee);
+    @PutMapping()
+    public ResponseEntity<GlobalResponse> updateEmployee(@RequestBody Users employee) {
+        GlobalResponse response = usersService.updateUsers(employee);
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/employees/{employeeId}")
+    @DeleteMapping("/{employeeId}")
     public ResponseEntity<GlobalResponse> deleteEmployee(@PathVariable int employeeId) {
-        GlobalResponse response = employeeService.deleteEmployee(employeeId);
+        GlobalResponse response = usersService.deleteUsers(employeeId);
         return ResponseEntity.ok(response);
     }
 
