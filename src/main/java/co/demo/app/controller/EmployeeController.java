@@ -3,10 +3,28 @@ package co.demo.app.controller;
 import co.demo.app.dto.GlobalResponse;
 import co.demo.app.models.entity.Employees;
 import co.demo.app.service.EmployeService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/v1/api")
+@OpenAPIDefinition(
+        info = @Info(contact = @Contact(
+                    name = "Meiman Jaya Gea",
+                    email = "jayameiman17@gmail.com",
+                    url = ""),
+                    description = "OpenApi documentation for Spring Swager",
+                    title = "OpenApi specification - Meiman Jaya Gea",
+                    version = "1.0",
+                    license = @License(name = "Licence name",url = "http://localhost:8080"),
+                    termsOfService = "Terms of service"
+        ),
+        servers = {@Server(description = "Local ENV",url = "http://localhost:8080")})
 public class EmployeeController {
     private final EmployeService employeeService;
 
@@ -15,6 +33,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
+    @Operation(
+            description = "Get all data"
+    )
     public ResponseEntity<GlobalResponse> findAllEmployees() {
         GlobalResponse response = employeeService.getAllEmployees();
         return ResponseEntity.ok(response);
