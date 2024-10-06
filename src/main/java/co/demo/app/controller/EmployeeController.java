@@ -4,7 +4,6 @@ import co.demo.app.dto.GlobalResponse;
 import co.demo.app.models.entity.Employees;
 import co.demo.app.service.EmployeService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
                     name = "Meiman Jaya Gea",
                     email = "jayameiman17@gmail.com",
                     url = ""),
-                    description = "OpenApi documentation for Spring Swager",
+                    description = "OpenApi documentation for Spring Swager-Ui",
                     title = "OpenApi specification - Meiman Jaya Gea",
                     version = "1.0",
                     license = @License(name = "Licence name",url = "http://localhost:8080"),
@@ -33,9 +32,6 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    @Operation(
-            description = "Get all data"
-    )
     public ResponseEntity<GlobalResponse> findAllEmployees() {
         GlobalResponse response = employeeService.getAllEmployees();
         return ResponseEntity.ok(response);
